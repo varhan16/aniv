@@ -1,10 +1,238 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Anniversary Kita</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #ffe6f0, #ffe6cc);
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+
+    .container {
+      padding: 50px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      color: #ff3366;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #ff3366;
+      font-size: 1.8rem;
+      margin-bottom: 30px;
+    }
+
+    .moments {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin: 40px 0;
+    }
+
+    .moment-btn {
+      background-color: #ff6699;
+      color: white;
+      border: none;
+      padding: 15px 25px;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+
+    .moment-btn:hover {
+      background-color: #ff3366;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    }
+
+    .message-section {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 30px;
+      background-color: rgba(255,255,255,0.8);
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .message-section textarea {
+      width: 100%;
+      height: 120px;
+      padding: 15px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: 1px solid #ffb3c6;
+      resize: none;
+      margin-bottom: 15px;
+      transition: border 0.3s;
+    }
+
+    .message-section textarea:focus {
+      border-color: #ff3366;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(255, 102, 153, 0.2);
+    }
+
+    .message-section button {
+      padding: 12px 30px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      background-color: #ff7da9;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 500;
+    }
+
+    .message-section button:hover {
+      background-color: #ff5d95;
+      transform: translateY(-2px);
+    }
+
+    #message-history-btn {
+      background: #ff7da9;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      margin-top: 20px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    #message-history-btn:hover {
+      background: #ff5d95;
+    }
+
+    #submitted-messages {
+      display: none;
+      margin-top: 15px;
+      padding: 15px;
+      background: #ffffff;
+      border-radius: 10px;
+      border: 2px dashed #ff7da9;
+      text-align: left;
+    }
+
+    .message-item {
+      margin-bottom: 10px;
+      padding: 10px;
+      background: #fff5f8;
+      border-radius: 5px;
+      position: relative;
+    }
+
+    .message-date {
+      font-size: 0.8rem;
+      color: #ff3366;
+      margin-top: 5px;
+      font-style: italic;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.9);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal-content {
+      margin: 50px auto;
+      display: block;
+      max-width: 85%;
+      max-height: 70vh;
+      border-radius: 10px;
+      box-shadow: 0 0 30px rgba(255, 105, 180, 0.5);
+      object-fit: contain;
+    }
+
+    .caption {
+      margin: 20px auto;
+      text-align: center;
+      color: #fff;
+      font-size: 1.1rem;
+      max-width: 80%;
+      line-height: 1.6;
+      background-color: rgba(255, 51, 102, 0.7);
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    .close {
+      position: absolute;
+      top: 25px;
+      right: 35px;
+      color: white;
+      font-size: 35px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .close:hover {
+      color: #ffcccc;
+      transform: rotate(90deg);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .container {
+        padding: 30px 15px;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      h2 {
+        font-size: 1.5rem;
+      }
+      
+      .moment-btn {
+        padding: 12px 20px;
+        font-size: 0.9rem;
+      }
+      
+      .modal-content {
+        max-width: 95%;
+        max-height: 60vh;
+      }
+      
+      .close {
+        top: 15px;
+        right: 25px;
+        font-size: 30px;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -23,60 +251,61 @@
     <div class="message-section">
       <h2>Tulis pesan buat aku ❤️</h2>
       <form action="https://formspree.io/f/mblyjbrp" method="POST">
-        <textarea name="message" placeholder="Tulis pesan di sini..." required></textarea>
-        <button type="submit">Kirim</button>
+        <textarea name="message" placeholder="Aku ingin mengatakan bahwa..." required></textarea>
+        <button type="submit">Kirim Pesan</button>
       </form>
+      <button id="message-history-btn">Lihat Pesan (0)</button>
+      <div id="submitted-messages"></div>
     </div>
   </div>
 
   <!-- Modal Popups -->
   <div id="moment1" class="modal">
     <span class="close" onclick="closeModal('moment1')">&times;</span>
-    <img class="modal-content" src="mimume.jfif" alt="Moment 1">
-    <div class="caption">Hari itu, kita cuma duduk berdua, ngobrol kecil, dan saling lempar tawa.
-Tapi entah kenapa, semuanya terasa spesial. Ini foto pertama kita bareng di dunia nyata dan sejak saat itu, dunia aku mulai berputar sedikit lebih hangat. ❤️</div>
+    <img class="modal-content" src="mimume.jfif" alt="Foto pertama kita berdua di dunia nyata">
+    <div class="caption">Hari itu, kita cuma duduk berdua, ngobrol kecil, dan saling lempar tawa. Tapi entah kenapa, semuanya terasa spesial. Ini foto pertama kita bareng di dunia nyata dan sejak saat itu, dunia aku mulai berputar sedikit lebih hangat. ❤️</div>
   </div>
 
   <div id="moment2" class="modal">
     <span class="close" onclick="closeModal('moment2')">&times;</span>
-    <img class="modal-content" src="1ef5890a-fb6e-47d1-846f-a9f77b5fa416.jpeg" alt="Moment 2">
-    <div class="caption">di foto ini kita nampak serasi, seperti pasangan yang sedang menikah anjayyyy</div>
+    <img class="modal-content" src="1ef5890a-fb6e-47d1-846f-a9f77b5fa416.jpeg" alt="Kita terlihat serasi seperti pasangan menikah">
+    <div class="caption">Di foto ini kita nampak serasi, seperti pasangan yang sedang menikah anjayyyy</div>
   </div>
 
   <div id="moment3" class="modal">
     <span class="close" onclick="closeModal('moment3')">&times;</span>
-    <img class="modal-content" src="282181bf-60de-4893-8e52-358d00f64159.jpeg" alt="Moment 3">
-    <div class="caption">di momen ini kita terlihat lucu, ini adalah gambaran kita nanti saat berkeluarga</div>
+    <img class="modal-content" src="282181bf-60de-4893-8e52-358d00f64159.jpeg" alt="Momen lucu bersama">
+    <div class="caption">Di momen ini kita terlihat lucu, ini adalah gambaran kita nanti saat berkeluarga</div>
   </div>
 
   <div id="moment4" class="modal">
     <span class="close" onclick="closeModal('moment4')">&times;</span>
-    <img class="modal-content" src="866758cd-a28b-4afb-8b1c-fd63ff50c5fd.jpeg" alt="Moment 4">
-    <div class="caption">ngedate ceritanya walaupun itu ga berdua setidaknya momen itu juga aku ga lupa, kalo foto ini tuh gabisa di post waktu itu karena masih backstreet</div>
+    <img class="modal-content" src="866758cd-a28b-4afb-8b1c-fd63ff50c5fd.jpeg" alt="Momen backstreet kita pertama">
+    <div class="caption">Ngedate ceritanya walaupun itu ga berdua setidaknya momen itu juga aku ga lupa, kalo foto ini tuh gabisa di post waktu itu karena masih backstreet</div>
   </div>
 
   <div id="moment5" class="modal">
     <span class="close" onclick="closeModal('moment5')">&times;</span>
-    <img class="modal-content" src="c28426f4-b677-421a-97c2-206cc916b16b.jpeg" alt="Moment 5">
-    <div class="caption">kita ngedate jauh juga yahh sampe ke bali, suatu hal yang keren pacaran bisa sampe ke bali.</div>
+    <img class="modal-content" src="c28426f4-b677-421a-97c2-206cc916b16b.jpeg" alt="Liburan kita ke Bali">
+    <div class="caption">Kita ngedate jauh juga yahh sampe ke Bali, suatu hal yang keren pacaran bisa sampe ke Bali.</div>
   </div>
 
   <div id="moment6" class="modal">
     <span class="close" onclick="closeModal('moment6')">&times;</span>
-    <img class="modal-content" src="8596580b-c968-40de-94b1-6a954de9a680.jpeg" alt="Moment 6">
-    <div class="caption">dan ini terakhir poto dimana kamu jadi pacar aku, alias kita jadian💖💖💖</div>
+    <img class="modal-content" src="8596580b-c968-40de-94b1-6a954de9a680.jpeg" alt="Momen jadian kita">
+    <div class="caption">Dan ini terakhir poto dimana kamu jadi pacar aku, alias kita jadian 💖💖💖</div>
   </div>
 
   <script>
-     function showModal(id) {
+    function showModal(id) {
       const modal = document.getElementById(id);
       modal.style.display = 'block';
-      modal.classList.add('fade-in');
-      createParticles(modal);
+      document.body.style.overflow = 'hidden'; // Mencegah scroll saat modal terbuka
     }
 
     function closeModal(id) {
       document.getElementById(id).style.display = 'none';
+      document.body.style.overflow = 'auto'; // Mengembalikan scroll saat modal ditutup
     }
 
     window.onclick = function(event) {
@@ -84,11 +313,13 @@ Tapi entah kenapa, semuanya terasa spesial. Ini foto pertama kita bareng di duni
       modals.forEach(modal => {
         if (event.target === modal) {
           modal.style.display = "none";
+          document.body.style.overflow = 'auto';
         }
       });
     }
 
-    const text = "happy anniversary sayang... ❤️";
+    // Efek ketikan
+    const text = "Happy Anniversary Sayang... ❤️";
     let index = 0;
     const typingText = document.getElementById("typing-text");
 
@@ -96,51 +327,83 @@ Tapi entah kenapa, semuanya terasa spesial. Ini foto pertama kita bareng di duni
       if (index < text.length) {
         typingText.innerHTML += text.charAt(index);
         index++;
-        setTimeout(typeEffect, 60);
+        setTimeout(typeEffect, 100);
       }
     }
 
-    window.onload = typeEffect;
+    // Menjalankan efek ketikan saat halaman dimuat
+    window.onload = function() {
+      typeEffect();
+      loadMessages(); // Load messages from local storage
+    };
 
-    function createParticles(modal) {
-      const canvas = modal.querySelector('.particles-canvas');
-      const ctx = canvas.getContext('2d');
-      canvas.width = modal.offsetWidth;
-      canvas.height = modal.offsetHeight;
-
-      const emojis = ['❤️', '✨'];
-      const particles = [];
-
-      for (let i = 0; i < 40; i++) {
-        particles.push({
-          x: Math.random() * canvas.width,
-          y: canvas.height + Math.random() * 100,
-          size: 24 + Math.random() * 10,
-          emoji: emojis[Math.floor(Math.random() * emojis.length)],
-          speedY: Math.random() * 2 + 0.5,
-          alpha: 1
-        });
-      }
-
-      function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach((p, i) => {
-          ctx.font = `${p.size}px serif`;
-          ctx.globalAlpha = p.alpha;
-          ctx.fillText(p.emoji, p.x, p.y);
-          p.y -= p.speedY;
-          p.alpha -= 0.01;
-          if (p.alpha <= 0) particles.splice(i, 1);
-        });
-
-        if (particles.length > 0) {
-          requestAnimationFrame(draw);
-        } else {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-        }
-      }
-      draw();
+    // Load messages from local storage
+    function loadMessages() {
+      const messages = JSON.parse(localStorage.getItem('messages')) || [];
+      messages.forEach(msg => {
+        addMessageToDisplay(msg.message, msg.date);
+      });
+      document.getElementById('message-history-btn').textContent = `Lihat Pesan (${messages.length})`;
     }
+
+    // Handle form submission
+    document.querySelector('form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const message = document.querySelector('textarea').value;
+      const now = new Date();
+      
+      // Format date/time
+      const formattedDate = now.toLocaleString('id-ID', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+      
+      // Add to local display
+      addMessageToDisplay(message, formattedDate);
+      
+      // Save to local storage
+      saveMessageToLocalStorage(message, formattedDate);
+      
+      // Clear textarea
+      document.querySelector('textarea').value = '';
+      
+      // Submit to formspree
+      fetch('https://formspree.io/f/mblyjbrp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({message: message, date: formattedDate})
+      });
+    });
+
+    // Function to add message to display
+    function addMessageToDisplay(message, date) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = 'message-item';
+      messageDiv.innerHTML = `
+        <div>${message}</div>
+        <div class="message-date">${date}</div>
+      `;
+      document.getElementById('submitted-messages').prepend(messageDiv);
+    }
+
+    // Function to save message to local storage
+    function saveMessageToLocalStorage(message, date) {
+      const messages = JSON.parse(localStorage.getItem('messages')) || [];
+      messages.push({ message, date });
+      localStorage.setItem('messages', JSON.stringify(messages));
+      document.getElementById('message-history-btn').textContent = `Lihat Pesan (${messages.length})`;
+    }
+
+    // Toggle message history
+    document.getElementById('message-history-btn').addEventListener('click', function() {
+      const messages = document.getElementById('submitted-messages');
+      messages.style.display = messages.style.display === 'none' ? 'block' : 'none';
+    });
   </script>
 </body>
 </html>
